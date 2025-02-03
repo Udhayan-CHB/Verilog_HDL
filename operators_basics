@@ -1,6 +1,10 @@
 module operators(
-  input wire a , b ,
-  output reg c 
+  input wire a, b,
+  output reg c, d, e, f 
 );
 
-assign c = (a )
+assign c = (a & b);
+assign d = (a | b);
+assign e = ~a ;
+assign f = (a ^ b);
+assign g = ~(a ^ b);
