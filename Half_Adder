@@ -1,9 +1,9 @@
-//This experiment is done on ARTY A7 35T
-//software use XILINX VIVALDO 2024.2
+//This experiment is done on ARTY A7 35T FPGA kit.
+//software used XILINX VIVALDO 2024.2
 //link to the user guide of arty a7 https://digilent.com/reference/programmable-logic/arty-a7/reference-manual
 
-//logic - 2 inputs added to get two outputs sum and carry
-//Expressions of sum = A xor B ; carry = A and B;
+//logic - 2 inputs were added to get two outputs sum and carry.
+//Expressions of sum = A xor B  and  carry = A and B;
 
 //Design Code
 //structural Modelling
