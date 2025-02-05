@@ -1,0 +1,56 @@
+//This experiment is done on ARTY A7 35T
+//software use XILINX VIVALDO 2024.2
+//link to the user guide of arty a7 https://digilent.com/reference/programmable-logic/arty-a7/reference-manual
+
+//logic - 2 inputs added to get two outputs sum and carry
+//Expressions of sum = A xor B ; carry = A and B;
+
+//Design Code
+//structural Modelling
+
+`timescale 1ns/1ps
+module half_adder (
+  input A, B, 
+  output sum, carry
+);
+  xor (sum, A, B);
+  and (carry, A, B);
+endmodule
+
+
+//Testbench code
+`timescale 1ns/1ps
+module tb_half_adder();
+  reg A, B;
+  wire sum, carry;
+  integer i;
+
+  half_adder dut (
+    .A(A), 
+    .B(B), 
+    .sum(sum), 
+    .carry(carry) 
+  );
+
+  initial begin
+    $monitor("A=%b B=%b sum=%b carry=%b", A, B, sum, carry);
+
+    for (i = 0; i < 4; i = i + 1) begin
+      {A, B} = i;  
+      #20;  
+    end
+  end
+endmodule
+
+
+//constraint code  
+
+//INPUT assigned to two slide switches 
+set_property -dict { PACKAGE_PIN A8    IOSTANDARD LVCMOS33 } [get_ports { A }];
+set_property -dict { PACKAGE_PIN C11   IOSTANDARD LVCMOS33 } [get_ports { B }];
+
+//output assigned to two led's 
+set_property -dict { PACKAGE_PIN H5    IOSTANDARD LVCMOS33 } [get_ports { sum }];
+set_property -dict { PACKAGE_PIN J5    IOSTANDARD LVCMOS33 } [get_ports { carry }];
+
+
