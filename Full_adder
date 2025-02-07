@@ -1,1 +1,64 @@
+//This experiment is done on ARTY A7 35T FPGA kit.
+//software used XILINX VIVALDO 2024.2
+//link to the user guide of arty a7 https://digilent.com/reference/programmable-logic/arty-a7/reference-manual
 
+//logic - 3 inputs were added to get two outputs sum and carry.
+//Expressions of sum = A xor B xor C and  carry = (A and B) or (B and C) or (C and A);
+
+//Design Code
+//dataflow Modelling 
+
+`timescale 1ns/1ps
+module full_adder(
+input A, B, C,
+output sum, carry
+);
+assign sum = A ^ B ^ C;
+assign Carry = (A & B) | (B & C) | (C & A);
+endmodule
+
+//testbench 
+
+`timescale 1ns/1ps
+module tb_Full_adder;
+reg A, B, C,
+wire sum, carry
+
+//insantiate
+full_adder dut (.A(A), .B(B), .C(C), .sum(sum), .carry(carry)){
+
+//TruthTable
+  //     a = 0; b = 0; c = 0;
+ // #10  a = 0; b = 0; c = 1;
+ // #10  a = 0; b = 1; c = 0;
+ // #10  a = 0; b = 1; c = 1;
+ // #10  a = 1; b = 0; c = 0;
+ // #10  a = 1; b = 0; c = 1;
+ // #10  a = 1; b = 1; c = 0;
+ // #10  a = 1; b = 1; c = 1;
+
+  initial begin
+        for (i = 0; i < 8; i = i + 1) begin
+            {A, B, C} = i;
+            #10;
+        end
+        #10 $stop;
+    end
+
+$moniter ("a = %b, B = %b, C = %b, sum = %b, carry = %b, A, B, C, sum, carry);
+}
+endmodule
+
+
+\\constraint code 
+\\Three switches for 3 inputs A, B, and C
+
+set_property -dict { PACKAGE_PIN A8    IOSTANDARD LVCMOS33 } [get_ports { A }]; 
+set_property -dict { PACKAGE_PIN C11   IOSTANDARD LVCMOS33 } [get_ports { B }]; 
+set_property -dict { PACKAGE_PIN C10   IOSTANDARD LVCMOS33 } [get_ports { C }];
+
+\\Two LEDS for two outputs sum and carry
+
+set_property -dict { PACKAGE_PIN H5    IOSTANDARD LVCMOS33 } [get_ports { sum }]; 
+set_property -dict { PACKAGE_PIN J5    IOSTANDARD LVCMOS33 } [get_ports { carry }]; 
+  
